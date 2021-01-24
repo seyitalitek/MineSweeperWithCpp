@@ -19,7 +19,6 @@ Table::Table(int NumberOfMines, bool isSecret) {
   }
 
   // Zufällige Zahlen für die Stelle von Mines
-  std::vector<int> mines;
   srand(time(0));
 
   for (int i = 0; i <= NumberOfMines; i++) {
@@ -29,14 +28,14 @@ Table::Table(int NumberOfMines, bool isSecret) {
       bool found = true;
       int r = rand() % 100;
       for (int j = 0; j < i; j++) {
-        if (mines[j] == r) {
+        if (gameScore.mines[j] == r) {
           found = false;
           break;
         }
       }
       if (!found)
         continue;
-      mines.push_back(r);
+      gameScore.mines.push_back(r);
       count++;
       break;
     }
@@ -44,13 +43,14 @@ Table::Table(int NumberOfMines, bool isSecret) {
 
   // Plazieren von Mines
   for (int i = 0; i < NumberOfMines; i++) {
-    table[mines[i] / 10][mines[i] % 10].content = Content::BOMB;
+    table[gameScore.mines[i] / 10][gameScore.mines[i] % 10].content =
+        Content::BOMB;
   }
 
   // write arounds
   for (int i = 0; i < NumberOfMines; i++) { // für jede Mine
-    int row = mines[i] / 10;                // wird die Position ausgerechnet
-    int column = mines[i] % 10;
+    int row = gameScore.mines[i] / 10;      // wird die Position ausgerechnet
+    int column = gameScore.mines[i] % 10;
     /*die Nachbarn von Minen wird entsprechen aktualisiert*/
     /* indem Data.around für jede anliegende Mine inkrementiert wird*/
     if (row) {
@@ -82,6 +82,64 @@ Table::Table(int NumberOfMines, bool isSecret) {
 //    }
 //  }
 //}
+
+Table::Table(score toPlay) {
+
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 10; j++) {
+      table[i][j].row = i;
+      table[i][j].column = j;
+      table[i][j].content = Content::SAFE;
+      table[i][j].isSecret = true;
+      table[i][j].around = 0;
+      table[i][j].note = Note::NONOTE;
+      table[i][j].isVisited = false;
+    }
+  }
+
+  // Zufällige Zahlen für die Stelle von Mines
+  for (size_t i = 0; i < toPlay.mines.size(); ++i) {
+    gameScore.mines.push_back(toPlay.mines[i]);
+  }
+
+  // Plazieren von Mines
+  for (size_t i = 0; i < toPlay.mines.size(); i++) {
+    table[gameScore.mines[i] / 10][gameScore.mines[i] % 10].content =
+        Content::BOMB;
+  }
+
+  // write arounds
+  for (size_t i = 0; i < toPlay.mines.size(); i++) { // für jede Mine
+    int row = gameScore.mines[i] / 10; // wird die Position ausgerechnet
+    int column = gameScore.mines[i] % 10;
+    /*die Nachbarn von Minen wird entsprechen aktualisiert*/
+    /* indem Data.around für jede anliegende Mine inkrementiert wird*/
+    if (row) {
+      if (column)
+        table[row - 1][column - 1].around += 1;
+      table[row - 1][column].around += 1;
+      if (!(column == 9))
+        table[row - 1][column + 1].around += 1;
+    }
+    if (column)
+      table[row][column - 1].around += 1;
+    if (!(column == 9))
+      table[row][column + 1].around += 1;
+
+    if (!(row == 9)) {
+      if (column)
+        table[row + 1][column - 1].around += 1;
+      table[row + 1][column].around += 1;
+      if (!(column == 9))
+        table[row + 1][column + 1].around += 1;
+    }
+  }
+
+  for (size_t i = 0; i < toPlay.draws.size(); ++i) {
+    gameScore.draws.push_back(toPlay.draws[i]);
+  }
+  gameScore.name = toPlay.name;
+}
 
 void Table::putNoteToPoint(int row, int column, Note type) {
   table[row][column].note = type;

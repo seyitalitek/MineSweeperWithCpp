@@ -7,12 +7,12 @@ using std::string;
 
 class Game : public Table {
   level gameLevel;
-  score gameScore;
 
 public:
-  Game();
-  Game(level gameLevel);
+  Game(level gameLevel = LOW);
+  Game(score toPlay);
   score playGame();
+  void autoPlay();
 };
 
 #endif // GAME_H

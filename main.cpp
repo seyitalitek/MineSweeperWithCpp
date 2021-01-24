@@ -10,9 +10,11 @@
 #include "input.h"
 #include "output.h"
 #include "tools.h"
+#define TEST // define for testing
 using namespace std;
 
 int main() {
+#ifndef TEST
   GameData gameData("highscores.txt");
   level gameLevel = level::LOW;
   int selection = 0;
@@ -54,4 +56,12 @@ int main() {
   }
 
   return 0;
+#endif
+#ifdef TEST
+  vector<score> scores;
+  Game game;
+  scores.push_back(game.playGame());
+  Game autoPlay(scores[0]);
+  autoPlay.autoPlay();
+#endif
 }

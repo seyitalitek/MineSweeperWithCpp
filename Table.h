@@ -2,6 +2,7 @@
 #define TABLE_H
 
 #include "tools.h"
+#include <vector>
 
 enum Content {
   BOMB,
@@ -25,7 +26,9 @@ protected:
   point table[10][10];
 
 public:
+  score gameScore;
   Table(int NumberOFMines = 10, bool isSecret = true);
+  Table(score toPlay);
   Status controlAction(int row, int column);
   void putNoteToPoint(int row, int column, Note type);
   void printTable(int points = 0);

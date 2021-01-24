@@ -17,6 +17,8 @@ struct score {
   bool newGame = false;
   string name = "no_name_provided";
   Status status = Status::CONTINUE;
+  std::vector<int> mines;
+  std::vector<int> draws;
 };
 int calculatePoint(int steps, level gameLevel, Status result);
 bool sortByPoint(const score &a, const score &b);
