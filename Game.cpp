@@ -6,7 +6,7 @@
 using std::cout;
 using std::endl;
 
-Game::Game(level gameLevel) {
+int convertLeveltoInt(level gameLevel) {
   int numberOfMines = 15;
   switch (gameLevel) {
   case LOW:
@@ -18,7 +18,10 @@ Game::Game(level gameLevel) {
     numberOfMines = 25;
     break;
   };
-  this->table = Table(numberOfMines);
+  return numberOfMines;
+}
+
+Game::Game(level gameLevel) : Table(convertLeveltoInt(gameLevel)) {
   this->gameLevel = gameLevel;
 }
 
@@ -31,7 +34,7 @@ score Game::playGame() {
     input currrentInput;
     Status status = CONTINUE;
 
-    table.printTable(gameScore.point);
+    this->printTable(gameScore.point);
 
     if (multipleSelection) {
       cout << "      Sie waren schon da!" << endl;
@@ -55,7 +58,7 @@ score Game::playGame() {
     ////
     case OPENINPUT:
       /////
-      status = table.controlAction(currrentInput.row, currrentInput.column);
+      status = this->controlAction(currrentInput.row, currrentInput.column);
       if (status == CONTINUE) {
         ++gameScore.steps;
         gameScore.point = calculatePoint(gameScore.steps, gameLevel, status);
@@ -63,8 +66,8 @@ score Game::playGame() {
       } else if (status == GAMEOVER) {
         // nach GameOver
         gameScore.status = GAMEOVER;
-        table.setVisibleforAllTable();
-        table.printTable(gameScore.point);
+        this->setVisibleforAllTable();
+        this->printTable(gameScore.point);
         printGameOver(gameScore.steps);
         printAfterSpielMenu();
         afterSpielSelection = getInputAfterSpiel();
@@ -79,8 +82,8 @@ score Game::playGame() {
       } else if (status == SUCCESS) {
         // nach Gewinn
         gameScore.status = SUCCESS;
-        table.setVisibleforAllTable();
-        table.printTable(gameScore.point);
+        this->setVisibleforAllTable();
+        this->printTable(gameScore.point);
         printSuccess(gameScore.steps);
         printAfterSpielMenu();
         afterSpielSelection = getInputAfterSpiel();
@@ -100,13 +103,13 @@ score Game::playGame() {
       break;
       /////
     case NOTESAFEINPUT:
-      table.putNoteToPoint(currrentInput.row, currrentInput.column, NOTESAFE);
+      this->putNoteToPoint(currrentInput.row, currrentInput.column, NOTESAFE);
       break;
     case NOTEBOMBINPUT:
-      table.putNoteToPoint(currrentInput.row, currrentInput.column, NOTEBOMB);
+      this->putNoteToPoint(currrentInput.row, currrentInput.column, NOTEBOMB);
       break;
     case NOTERESETINPUT:
-      table.putNoteToPoint(currrentInput.row, currrentInput.column, NONOTE);
+      this->putNoteToPoint(currrentInput.row, currrentInput.column, NONOTE);
       break;
     case DEFAULT:;
       /////////

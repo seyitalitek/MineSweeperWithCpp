@@ -5,9 +5,8 @@
 
 using std::string;
 
-class Game {
+class Game : public Table {
   level gameLevel;
-  Table table;
   score gameScore;
 
 public:

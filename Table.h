@@ -21,6 +21,7 @@ struct point { // representation of points in the Game-Area
 };
 
 class Table {
+protected:
   point table[10][10];
 
 public:
