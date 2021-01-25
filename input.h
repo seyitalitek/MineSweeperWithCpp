@@ -25,5 +25,6 @@ int getInputAfterSpiel();
 std::string getUserName();
 int getInputLevel();
 int getInputFromHighScore();
+int getInputFromMenus(int max);
 
 #endif // INPUT_H

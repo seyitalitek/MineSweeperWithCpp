@@ -81,5 +81,5 @@ void printLevelOptions(level gameLevel) {
 }
 
 void printHighScoreMenu() {
-  cout << "(1) Zum Hauptmenu, (2)  Liste löschen" << endl;
+  cout << "(1) Zum Hauptmenu, (2)  Liste löschen  (3) Nachspielen" << endl;
 }

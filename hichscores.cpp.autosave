@@ -1,6 +1,0 @@
-#include "hichscores.h"
-
-Hichscores::Hichscores() {
-    
-    
-}

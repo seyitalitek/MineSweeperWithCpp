@@ -9,24 +9,45 @@ GameData::GameData(string filename) {
   this->filename = filename;
   fstream file;
   file.open(filename, std::ios::in);
-  int isEmpty;
+  int isEmpty = 1;
 
   if (file) // first charachter in file will be 1
             // if file is empty
     file >> isEmpty;
-
+  else {
+    file.close();
+    file.open(filename, std::ios::out | std::ios::trunc);
+    file << 1 << " ";
+    file.close();
+  }
   if (file && !isEmpty) { // if the file not empty
 
     while (true) {
       string name;
+      score temp;
       int point;
-      file >> name;
+      int mine;
+      int c;
+      //////
+      file >> name; // to bypass rs
       if (name == "end")
         break;
-      file >> point;
-      score temp;
+      //////
+      file >> name;
       temp.name = name;
+      file >> point;
       temp.point = point;
+      file >> c;
+      for (int i = 0; i < c; ++i) {
+        file >> mine;
+        temp.mines.push_back(mine);
+      }
+      file >> c;
+      for (int i = 0; i < c; ++i) {
+        file >> mine;
+        temp.draws.push_back(mine);
+      }
+      file >> name; // to bypass re
       this->highscores.push_back(temp);
     }
   }
@@ -38,12 +59,22 @@ void GameData::writeData() {
   fstream file;
   file.open(filename, std::ios::out);
   if (file) {
-    file << 0 << " ";
+    file << 0 << " \n";
     for (score sc : this->highscores) {
+      file << "rs ";
       file << sc.name << " ";
       file << sc.point << " ";
+      file << sc.mines.size() << " ";
+      for (int mine : sc.mines) {
+        file << mine << " ";
+      }
+      file << sc.draws.size() << " ";
+      for (int draw : sc.draws) {
+        file << draw << " ";
+      }
+      file << "re\n";
     }
-    file << "end ";
+    file << "end";
   } else {
     std::cout << "unable to open file ";
   }

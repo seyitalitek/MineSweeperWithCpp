@@ -21,7 +21,7 @@ Table::Table(int NumberOfMines, bool isSecret) {
   // Zufällige Zahlen für die Stelle von Mines
   srand(time(0));
 
-  for (int i = 0; i <= NumberOfMines; i++) {
+  for (int i = 0; i < NumberOfMines; i++) {
     int count = 0;
 
     while (true) {
@@ -169,29 +169,29 @@ Status Table::controlAction(int row, int column) {
       if (row) {
         if (column)
           if (table[row - 1][column - 1].content == Content::SAFE)
-            this->controlAction(row - 1, column - 1);
-        if (table[row - 1][column].content == 0)
-          this->controlAction(row - 1, column);
+            controlAction(row - 1, column - 1);
+        if (table[row - 1][column].content == Content::SAFE)
+          controlAction(row - 1, column);
         if (!(column == 9))
           if (table[row - 1][column + 1].content == Content::SAFE)
-            this->controlAction(row - 1, column + 1);
+            controlAction(row - 1, column + 1);
       }
       if (column)
         if (table[row][column - 1].content == Content::SAFE)
-          this->controlAction(row, column - 1);
+          controlAction(row, column - 1);
       if (!(column == 9))
         if (table[row][column + 1].content == Content::SAFE)
-          this->controlAction(row, column + 1);
+          controlAction(row, column + 1);
 
       if (!(row == 9)) {
         if (column)
           if (table[row + 1][column - 1].content == Content::SAFE)
-            this->controlAction(row + 1, column - 1);
+            controlAction(row + 1, column - 1);
         if (table[row + 1][column].content == Content::SAFE)
-          this->controlAction(row + 1, column);
+          controlAction(row + 1, column);
         if (!(column == 9))
           if (table[row + 1][column + 1].content == Content::SAFE)
-            this->controlAction(row + 1, column + 1);
+            controlAction(row + 1, column + 1);
       }
     }
     //

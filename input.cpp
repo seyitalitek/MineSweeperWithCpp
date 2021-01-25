@@ -116,7 +116,7 @@ int getInputAfterSpiel() {
 };
 
 int getInputFromHighScore() {
-  regex re("[12]");
+  regex re("[123]");
   string input;
   while (true) {
     cout << "       Geben Sie die Nummer der Wahl ein: ";
@@ -149,3 +149,18 @@ int getInputLevel() {
     }
   }
 }
+
+int getInputFromMenus(int max) {
+  while (true) {
+    cout << "\n Geben Sie die Nummer der Wahl ein: ";
+    string input;
+    getline(cin, input);
+    if ((input.length() > 1) || (int(input[0]) > (48 + max)) ||
+        (int(input[0]) < 49)) {
+      cout << "            " << input << std::endl;
+      cout << "            Invalid Input";
+    } else {
+      return int(input[0]) - 48; // 1-kurs 2-studenten 3-exit
+    }
+  }
+};

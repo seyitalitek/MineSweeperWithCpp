@@ -10,7 +10,7 @@
 #include "input.h"
 #include "output.h"
 #include "tools.h"
-#define TEST // define for testing
+#define GAME // define TEST  for testing
 using namespace std;
 
 int main() {
@@ -29,8 +29,15 @@ int main() {
     } else if (selection == 4) { // Highscores
       gameData.printHighScores();
       printHighScoreMenu();
-      if (getInputFromHighScore() == 2)
+      int inputFromHighscoremenu = getInputFromHighScore();
+      if (inputFromHighscoremenu == 2)
         gameData.resetData();
+      else if (inputFromHighscoremenu == 3) {
+        inputFromHighscoremenu =
+            getInputFromMenus(gameData.getHighScores()->size());
+        Game autoPlay(gameData.getHighScores()->at(inputFromHighscoremenu - 1));
+        autoPlay.autoPlay();
+      }
       continue;
     } else if (selection == 3) { // Level settings
       printLevelOptions(gameLevel);
@@ -58,10 +65,12 @@ int main() {
   return 0;
 #endif
 #ifdef TEST
-  vector<score> scores;
   Game game;
-  scores.push_back(game.playGame());
-  Game autoPlay(scores[0]);
-  autoPlay.autoPlay();
+  Game game2;
+  GameData highscores("highscores.txt");
+  Game autoPlay1(highscores.getHighScores()->at(0));
+  Game autoPlay2(highscores.getHighScores()->at(1));
+  autoPlay1.autoPlay();
+  autoPlay2.autoPlay();
 #endif
 }

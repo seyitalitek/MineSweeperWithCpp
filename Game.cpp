@@ -38,7 +38,7 @@ score Game::playGame() {
     input currrentInput;
     Status status = CONTINUE;
 
-    this->printTable(gameScore.point);
+    printTable(gameScore.point);
 
     if (multipleSelection) {
       cout << "      Sie waren schon da!" << endl;
@@ -62,7 +62,7 @@ score Game::playGame() {
     ////
     case OPENINPUT:
       /////
-      status = this->controlAction(currrentInput.row, currrentInput.column);
+      status = controlAction(currrentInput.row, currrentInput.column);
 
       if (status == CONTINUE) {
         gameScore.draws.push_back(currrentInput.row * 10 +
@@ -75,8 +75,8 @@ score Game::playGame() {
                                   currrentInput.column);
         // nach GameOver
         gameScore.status = GAMEOVER;
-        this->setVisibleforAllTable();
-        this->printTable(gameScore.point);
+        setVisibleforAllTable();
+        printTable(gameScore.point);
         printGameOver(gameScore.steps);
         printAfterSpielMenu();
         afterSpielSelection = getInputAfterSpiel();
@@ -92,8 +92,8 @@ score Game::playGame() {
                                   currrentInput.column);
         // nach Gewinn
         gameScore.status = SUCCESS;
-        this->setVisibleforAllTable();
-        this->printTable(gameScore.point);
+        setVisibleforAllTable();
+        printTable(gameScore.point);
         printSuccess(gameScore.steps);
         printAfterSpielMenu();
         afterSpielSelection = getInputAfterSpiel();
@@ -112,13 +112,13 @@ score Game::playGame() {
       break;
       /////
     case NOTESAFEINPUT:
-      this->putNoteToPoint(currrentInput.row, currrentInput.column, NOTESAFE);
+      putNoteToPoint(currrentInput.row, currrentInput.column, NOTESAFE);
       break;
     case NOTEBOMBINPUT:
-      this->putNoteToPoint(currrentInput.row, currrentInput.column, NOTEBOMB);
+      putNoteToPoint(currrentInput.row, currrentInput.column, NOTEBOMB);
       break;
     case NOTERESETINPUT:
-      this->putNoteToPoint(currrentInput.row, currrentInput.column, NONOTE);
+      putNoteToPoint(currrentInput.row, currrentInput.column, NONOTE);
       break;
     case DEFAULT:;
       /////////
@@ -126,35 +126,55 @@ score Game::playGame() {
   }
 }
 
+int convertInttoInt(level gameLevel) {
+  int numberOfMines = 15;
+  switch (gameLevel) {
+  case LOW:
+    break;
+  case MID:
+    numberOfMines = 20;
+    break;
+  case HIGH:
+    numberOfMines = 25;
+    break;
+  };
+  return numberOfMines;
+}
+
 void Game::autoPlay() {
   Status status;
   input currrentInput;
-
+  int autoPlayPoint = 0;
+  int autoPlayStep = 0;
+  level autoPlayLevel = static_cast<level>(gameScore.mines.size() / 15 - 1);
+  cout << autoPlayLevel;
+  printTable(autoPlayPoint);
+  sleep(2);
   for (size_t i = 0; i < gameScore.draws.size(); ++i) {
-    cout << "autoPlay function" << endl;
-    printTable(gameScore.point);
-    sleep(2);
     currrentInput.row = gameScore.draws[i] / 10;
     currrentInput.column = gameScore.draws[i] % 10;
-    status = this->controlAction(currrentInput.row, currrentInput.column);
+    sleep(2);
+    status = controlAction(currrentInput.row, currrentInput.column);
     if (status == CONTINUE) {
-      ++gameScore.steps;
-      gameScore.point = calculatePoint(gameScore.steps, gameLevel, status);
+      ++autoPlayStep;
+      autoPlayPoint = calculatePoint(autoPlayStep, autoPlayLevel, status);
+      printTable(autoPlayPoint);
       continue;
     } else if (status == GAMEOVER) {
       // nach GameOver
       gameScore.status = GAMEOVER;
-      this->setVisibleforAllTable();
-      this->printTable(gameScore.point);
-      printGameOver(gameScore.steps);
+      setVisibleforAllTable();
+      printTable(autoPlayPoint);
+      printGameOver(autoPlayStep);
 
     } else if (status == SUCCESS) {
       // nach Gewinn
       gameScore.status = SUCCESS;
-      this->setVisibleforAllTable();
-      this->printTable(gameScore.point);
-      printSuccess(gameScore.steps);
+      setVisibleforAllTable();
+      printTable(autoPlayPoint);
+      printSuccess(autoPlayStep);
     }
   }
+  cout << "THE END" << endl;
   system("read");
 }
