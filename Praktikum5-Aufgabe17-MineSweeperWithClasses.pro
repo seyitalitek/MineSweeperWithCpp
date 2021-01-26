@@ -19,3 +19,6 @@ HEADERS += \
     input.h \
     output.h \
     tools.h
+
+DISTFILES += \
+    .gitignore
