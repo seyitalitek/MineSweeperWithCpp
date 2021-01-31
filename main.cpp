@@ -1,8 +1,4 @@
-/*
- *
- *  Ali Tekin
- *
- */
+
 
 #include "Game.h"
 #include "GameData.h"
