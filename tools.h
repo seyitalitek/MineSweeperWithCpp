@@ -20,6 +20,22 @@ struct score {
   std::vector<int> mines;
   std::vector<int> draws;
 };
+enum Content {
+  BOMB,
+  SAFE,
+};
+
+enum Note { NOTEBOMB, NOTESAFE, NONOTE };
+
+struct point { // representation of points in the Game-Area
+  int row;
+  int column;
+  int around;
+  bool isSecret;
+  bool isVisited;
+  Content content; // Content is Bomb or Safe
+  Note note;       // marking of the points will be saved (p,b)
+};
 int calculatePoint(int steps, level gameLevel, Status result);
 bool sortByPoint(const score &a, const score &b);
 #endif // TOOLS_H

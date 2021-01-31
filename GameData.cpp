@@ -37,12 +37,12 @@ GameData::GameData(string filename) {
       temp.name = name;
       file >> point;
       temp.point = point;
-      file >> c;
+      file >> c; // Anzahl der Mines
       for (int i = 0; i < c; ++i) {
         file >> mine;
         temp.mines.push_back(mine);
       }
-      file >> c;
+      file >> c; // Anzahl der Züge
       for (int i = 0; i < c; ++i) {
         file >> mine;
         temp.draws.push_back(mine);

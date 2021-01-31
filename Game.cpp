@@ -126,34 +126,30 @@ score Game::playGame() {
   }
 }
 
-int convertInttoInt(level gameLevel) {
-  int numberOfMines = 15;
-  switch (gameLevel) {
-  case LOW:
-    break;
-  case MID:
-    numberOfMines = 20;
-    break;
-  case HIGH:
-    numberOfMines = 25;
-    break;
-  };
-  return numberOfMines;
-}
-
 void Game::autoPlay() {
   Status status;
   input currrentInput;
   int autoPlayPoint = 0;
   int autoPlayStep = 0;
   level autoPlayLevel = static_cast<level>(gameScore.mines.size() / 15 - 1);
-  cout << autoPlayLevel;
   printTable(autoPlayPoint);
-  sleep(2);
   for (size_t i = 0; i < gameScore.draws.size(); ++i) {
     currrentInput.row = gameScore.draws[i] / 10;
     currrentInput.column = gameScore.draws[i] % 10;
+
+    /////input visualization
+    cout << "      ";
+    cout.flush();
+    sleep(1);
+    cout << static_cast<char>(currrentInput.column + 65);
+    cout.flush();
+    sleep(1);
+    cout << currrentInput.row + 1 << " ";
+    cout.flush();
     sleep(2);
+    cout.flush();
+    /////
+
     status = controlAction(currrentInput.row, currrentInput.column);
     if (status == CONTINUE) {
       ++autoPlayStep;
@@ -175,6 +171,6 @@ void Game::autoPlay() {
       printSuccess(autoPlayStep);
     }
   }
-  cout << "THE END" << endl;
+  cout << "     THE END" << endl;
   system("read");
 }

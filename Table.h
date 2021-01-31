@@ -4,23 +4,6 @@
 #include "tools.h"
 #include <vector>
 
-enum Content {
-  BOMB,
-  SAFE,
-};
-
-enum Note { NOTEBOMB, NOTESAFE, NONOTE };
-
-struct point { // representation of points in the Game-Area
-  int row;
-  int column;
-  int around;
-  bool isSecret;
-  bool isVisited;
-  Content content; // Content is Bomb or Safe
-  Note note;       // marking of the points will be saved (p,b)
-};
-
 class Table {
 protected:
   point table[10][10];
