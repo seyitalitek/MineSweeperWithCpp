@@ -1,5 +1,4 @@
 
-
 #include "Game.h"
 #include "GameData.h"
 #include "Table.h"
@@ -31,7 +30,10 @@ int main() {
       else if (inputFromHighscoremenu == 3) {
         inputFromHighscoremenu =
             getInputFromMenus(gameData.getHighScores()->size());
-        Game autoPlay(gameData.getHighScores()->at(inputFromHighscoremenu - 1));
+        int size_of_scores = gameData.getHighScores()->size();
+        Game autoPlay(gameData.getHighScores()->at(
+            size_of_scores - inputFromHighscoremenu)); // die Reihenfolge der
+                                                       // Scores ist umgekehrt
         autoPlay.autoPlay();
       }
       continue;

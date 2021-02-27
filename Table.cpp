@@ -83,6 +83,7 @@ Table::Table(int NumberOfMines, bool isSecret) {
 //  }
 //}
 
+// Spielfeld
 Table::Table(score toPlay) {
 
   for (int i = 0; i < 10; i++) {

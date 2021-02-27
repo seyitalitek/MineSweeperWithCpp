@@ -10,6 +10,7 @@ protected:
 
 public:
   score gameScore;
+
   Table(int NumberOFMines = 10, bool isSecret = true);
   Table(score toPlay);
   Status controlAction(int row, int column);

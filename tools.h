@@ -9,7 +9,9 @@ enum level {
   MID,
   HIGH,
 };
+
 enum Status { SUCCESS, GAMEOVER, CONTINUE, MULTIPEL };
+
 struct score {
   int point = 0;
   int steps = 0;

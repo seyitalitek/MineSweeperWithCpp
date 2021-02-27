@@ -4,7 +4,7 @@ using std::cout;
 using std::endl;
 
 // to read and write highscores from - to file
-
+// reading scores from file
 GameData::GameData(string filename) {
   this->filename = filename;
   fstream file;
@@ -53,8 +53,24 @@ GameData::GameData(string filename) {
   }
   file.close();
 }
-// reading scores from file
+
 vector<score> *GameData::getHighScores() { return &this->highscores; }
+/* Structure of text File, in which die Scores are recorded
+ * 1
+ * rs name point size_of_mines ...mines size_of_draws ...draws re\n
+ * rs ... re\n
+ * .
+ * .
+ * .
+ * end
+ *
+ * or (if there is no score)
+ *
+ * 0
+ *
+ */
+
+// write scores to file
 void GameData::writeData() {
   fstream file;
   file.open(filename, std::ios::out);
